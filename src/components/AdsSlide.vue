@@ -1,0 +1,83 @@
+<template>
+  <b-carousel
+    :autoplay="false"
+    with-carousel-list
+    :indicator="false"
+    :overlay="gallery"
+    @click="switchGallery(true)"
+  >
+    <b-carousel-item v-for="(item, i) in items" :key="i">
+      <figure class="image">
+        <img :src="item.image" />
+      </figure>
+    </b-carousel-item>
+    <span
+      v-if="gallery"
+      @click="switchGallery(false)"
+      class="modal-close is-large"
+    />
+  </b-carousel>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      gallery: false,
+      al: {
+        hasGrayscale: true,
+        itemsToShow: 2,
+        breakpoints: {
+          768: {
+            hasGrayscale: false,
+            itemsToShow: 4,
+          },
+          960: {
+            hasGrayscale: true,
+            itemsToShow: 6,
+          },
+        },
+      },
+      items: [
+        {
+          title: "Slide 1",
+          image: 'https://picsum.photos/id/11/1230/350'
+        },
+        {
+          title: "Slide 2",
+          image: "https://picsum.photos/id/100/1230/350",
+        },
+        {
+          title: "Slide 3",
+          image: "https://picsum.photos/id/87/1230/350",
+        },
+        {
+          title: "Slide 4",
+          image: "https://picsum.photos/id/29/1230/350",
+        },
+        {
+          title: "Slide 5",
+          image: "https://picsum.photos/id/18/1230/350",
+        },
+      ],
+    };
+  },
+  methods: {
+    switchGallery(value) {
+      this.gallery = value;
+      if (value) {
+        document.documentElement.classList.add("is-clipped");
+      } else {
+        document.documentElement.classList.remove("is-clipped");
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+*image {
+    width: 100px;
+  height: 350px;
+}
+</style>
