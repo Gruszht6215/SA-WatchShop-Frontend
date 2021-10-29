@@ -2,84 +2,120 @@
   <div id="app">
     <div>
       <b-navbar>
-          <template #start>
-              <router-link class="navbar-item" to="/">Home</router-link>
-              <router-link v-if="isAuthen() && isAdmin()" class="navbar-item" to="/admin/board">Admin Board</router-link>
-              <router-link v-if="isAuthen() && isAdmin()" class="navbar-item" to="/admin/items">Admin Item Stock</router-link>
-              <router-link v-if="isAuthen() && isAdmin()" class="navbar-item" to="/admin/spareparts">Admin Spareparts Stock</router-link>
-          </template>
-          <template #end>
-              <b-navbar-item tag="div">
-                  <div class="buttons">
-                      <div id="icon" v-if="isAuthen()">
-                        <router-link class="navbar-item"  to="/cart">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
-                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-                            </svg>
-                        </router-link>
-                      </div>
-                      <div v-if="isAuthen()">
-                        <b-dropdown aria-role="list">
-                            <template #trigger>
-                                <b-button label="History" type="is-primary"/>
-                            </template>
-                            <b-dropdown-item aria-role="listitem">
-                              <router-link to="/history/items">History-Items</router-link>
-                            </b-dropdown-item>
-                        </b-dropdown>
-                      </div>
+        <template #start>
+          <router-link class="navbar-item" to="/">Home</router-link>
+          <router-link
+            v-if="isAuthen() && isAdmin()"
+            class="navbar-item"
+            to="/admin/board"
+            >Admin Board</router-link
+          >
+          <router-link
+            v-if="isAuthen() && isAdmin()"
+            class="navbar-item"
+            to="/admin/items"
+            >Admin Item Stock</router-link
+          >
+          <router-link
+            v-if="isAuthen() && isAdmin()"
+            class="navbar-item"
+            to="/admin/spareparts"
+            >Admin Spareparts Stock</router-link
+          >
+          <router-link
+            v-if="isAuthen() && isAdmin()"
+            class="navbar-item"
+            to="/admin/manufacturer"
+            >Admin-Manufacturer</router-link
+          >
+        </template>
+        <template #end>
+          <b-navbar-item tag="div">
+            <div class="buttons">
+              <div id="icon" v-if="isAuthen() && !isAdmin()">
+                <router-link class="navbar-item" to="/cart">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    fill="currentColor"
+                    class="bi bi-cart2"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"
+                    />
+                  </svg>
+                </router-link>
+              </div>
+              <div v-if="isAuthen() && !isAdmin()">
+                <b-dropdown aria-role="list">
+                  <template #trigger>
+                    <b-button label="History" type="is-primary" />
+                  </template>
+                  <b-dropdown-item aria-role="listitem">
+                    <router-link to="/history/items">History-Items</router-link>
+                  </b-dropdown-item>
+                </b-dropdown>
+              </div>
 
-                      <div v-if="!isAuthen()">
-                        <a class="button is-primary">
-                        <router-link class="navbar-item"  to="/signUp"><strong>Sign Up</strong></router-link>
-                        </a>
-                      </div>
-                      <div v-if="!isAuthen()">
-                        <a class="button is-light">
-                          <router-link class="navbar-item"  to="/login"><strong>Login</strong></router-link>
-                        </a>
-                      </div>
-                      <div v-if="isAuthen()">
-                        <a class="button is-light">
-                          <router-link class="navbar-item"  to="/logout"><strong>Logout</strong></router-link>
-                        </a>
-                      </div>
-                  </div>
-              </b-navbar-item>
-          </template>
+              <div v-if="!isAuthen()">
+                <a class="button is-primary">
+                  <router-link class="navbar-item" to="/signUp"
+                    ><strong>Sign Up</strong></router-link
+                  >
+                </a>
+              </div>
+              <div v-if="!isAuthen()">
+                <a class="button is-light">
+                  <router-link class="navbar-item" to="/login"
+                    ><strong>Login</strong></router-link
+                  >
+                </a>
+              </div>
+              <div v-if="isAuthen()">
+                <a class="button is-light">
+                  <router-link class="navbar-item" to="/logout"
+                    ><strong>Logout</strong></router-link
+                  >
+                </a>
+              </div>
+            </div>
+          </b-navbar-item>
+        </template>
       </b-navbar>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import AuthUser from '@/store/AuthUser'
+import AuthUser from "@/store/AuthUser";
 export default {
   data() {
-      return {
-        currentUser: '',
-        admin: false,
-        dateBtn: true,
-      }
+    return {
+      currentUser: "",
+      admin: false,
+      dateBtn: true,
+    };
   },
 
-  created(){
-    this.fetchCurrentUser()
+  created() {
+    this.fetchCurrentUser();
   },
-  methods:{
-    fetchCurrentUser(){
-      this.currentUser = AuthUser.getters.user
-      this.admin = AuthUser.getters.isAdmin
+  methods: {
+    fetchCurrentUser() {
+      this.currentUser = AuthUser.getters.user;
+      this.admin = AuthUser.getters.isAdmin;
     },
-    isAuthen(){
-      return AuthUser.getters.isAuthen
+    isAuthen() {
+      return AuthUser.getters.isAuthen;
     },
-    isAdmin(){
-      return AuthUser.getters.isAdmin
+    isAdmin() {
+      return AuthUser.getters.isAdmin;
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -89,7 +125,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
-#icon{
-    margin-top: -9px;
+#icon {
+  margin-top: -9px;
 }
 </style>

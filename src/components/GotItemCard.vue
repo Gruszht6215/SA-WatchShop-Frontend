@@ -8,7 +8,9 @@
       </div>
       <div class="content">
         Amount: {{itemInput.amount}}
+        <br>
         Total: {{itemInput.price_all}}
+        <br>
         Buy Date
         <div class="tag is-info">{{itemInput.date}}</div>
 
@@ -37,7 +39,7 @@ export default {
 .card{
   margin: 20px;
   width: 400px;
-  height: 190px;
+  height: auto;
   position: relative;
   float: left;
   margin-left: 47px;
