@@ -71,6 +71,28 @@ export default new Vuex.Store({
       console.log(res.data)
     },
 
+    async updateItemRemaining({ commit }, payload) {
+      let url = api_endpoint + "/items/" + (payload.id)
+      let body
+      //if remaining = 0 then set status false(dont show on store)
+      if (payload.remain == 0) {
+        body = {
+          remain: payload.remain,
+          status: false
+        }
+      } else {
+        body = {
+          remain: payload.remain
+        }
+      }
+      let res = await Axios.put(url, body)
+      if (res.status === 200) {
+        // console.log('buy success')
+      } else {
+        console.error(res)
+      }
+    },
+
     async deleteItem({ commit }, payload) {
       let url = api_endpoint + "/items/" + (payload.id)
       let res = await Axios.delete(url)
