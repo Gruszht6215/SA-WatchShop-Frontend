@@ -38,7 +38,7 @@ export default new Vuex.Store({
       }
     },
 
-    async fetchItemById({ commit }, payload) {
+    async fetchSparepartById({ commit }, payload) {
       let res = await Axios.get(api_endpoint + "/spare-parts?" + "id_in=" + payload.id)
       commit('fetch', { res })
       console.log("Fetch Item By ID API");

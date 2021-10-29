@@ -45,6 +45,11 @@ const routes = [
     component: () => import('../views/admin/AdminSparepart.vue')
   },
   {
+    path: '/admin/manufacturer',
+    name: 'AdminEditmanufacturer',
+    component: () => import('../views/admin/AdminManufacturer.vue')
+  },
+  {
     path: '/history/items',
     name: 'HistoryItems',
     component: () => import('../views/History_Items.vue')

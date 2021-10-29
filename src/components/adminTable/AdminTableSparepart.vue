@@ -7,8 +7,7 @@
                         <th>#</th>
                         <th>Name Sparepart</th>
                         <th>Price</th>
-                        <th>remain</th>
-                        <th>Action</th>
+                        <th>Remain</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,13 +25,6 @@
                         <td horizontal v-else>
                             <b-input size="is-small" placeholder="remain" v-model="form.remain"></b-input>
                             <button @click="plus()">+</button>
-                        </td>
-                        <td v-if="item.id !== editId">
-                            <b-button @click="openForm(item)" size="is-small" type="is-primary" outlined>Edit</b-button>&nbsp;
-                        </td>
-                        <td v-else-if="item.id === editId" id="EditButtonGroup">
-                            <b-button @click="editItem()" size="is-small" type="is-warning">Confirm</b-button>&nbsp;
-                            <b-button @click="closeForm()" size="is-small" type="is-warning">close</b-button>
                         </td>
                     </tr>
                 </tbody>
@@ -60,35 +52,6 @@ export default {
         async fetchSpareparts() {
             await SparepartApiStore.dispatch('fetchSpareparts')
             this.spareparts = SparepartApiStore.getters.spareparts
-        },
-        openForm(item){
-            this.editId = item.id
-            let cloned = JSON.parse(JSON.stringify(item))
-            this.form.remain = cloned.remain
-        },
-        closeForm(){
-            this.editId = -1
-            this.form= {
-                remain: 0
-            }
-        },
-        plus(){
-            this.form.remain = parseInt(this.form.remain)+1;
-        },
-        async editItem(){
-            let payload={
-                id: this.editId,
-                remain: parseInt(this.form.remain)
-            }
-            let res = await SparepartApiStore.dispatch("editItem",payload)
-            if(res.success){
-                this.$swal("Edit spare part Success", item.name, "success")
-            }
-            else{
-                this.$swal("Edit spare part Failed", item.name, "error")
-            }
-            this.closeForm()
-            this.fetchSpareparts()
         },
     }
 }
