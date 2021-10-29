@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import SparePartApi from "@/store/SparePartApi";
+import SparePartApi from "@/store/SparepartApi";
 import SparePartForm from "@/components/adminTable/addItem/SparePartForm";
 
 export default {
@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     async fetchSpareParts() {
-      await SparePartApi.dispatch("fetchSpareParts");
+      await SparePartApi.dispatch("fetchSpareparts");
       this.spare_parts = SparePartApi.getters.spare_parts;
     },
     test() {
