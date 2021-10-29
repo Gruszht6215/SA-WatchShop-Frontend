@@ -24,19 +24,22 @@ export default new Vuex.Store({
       commit('fetch', { res })
       console.log("Fetch spareparts API");
     },
-    async editItem({ commit }, payload) {
+
+    async updateSparepartsRemain({ commit }, payload) {
       let url = api_endpoint + "/spare-parts/" + (payload.id)
-      console.log(url);
       let body = {
         remain: payload.remain
       }
-      console.log(body);
       let res = await Axios.put(url, body)
-      console.log("Edit item");
-      console.log(res.data)
+      if (res.status === 200) {
+        console.log("updated spare part")
+      } else {
+        console.error(res)
+      }
     },
+
     async fetchItemById({ commit }, payload) {
-      let res = await Axios.get(api_endpoint + "/spare-parts" + "id_in=" + payload)
+      let res = await Axios.get(api_endpoint + "/spare-parts?" + "id_in=" + payload.id)
       commit('fetch', { res })
       console.log("Fetch Item By ID API");
       return res.data[0]

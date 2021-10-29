@@ -75,7 +75,7 @@
         @clicked="setSeletedSparepart"
       ></SparePartForm>
     </b-modal>
-    <b-button label="Test" type="is-primary" @click="test" />
+    <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -102,6 +102,7 @@ export default {
       leftSpareParts: [],
       selectedFile: null,
       previewImage: null,
+      isLoading: false,
     };
   },
   created() {
@@ -109,11 +110,14 @@ export default {
   },
   methods: {
     async fetchSpareParts() {
+      this.isLoading = true;
       await SparePartApi.dispatch("fetchSpareparts");
       this.spare_parts = SparePartApi.getters.spareparts;
       this.addLeftSpareParts();
+      this.isLoading = false;
     },
     setSeletedSparepart(selectedSparepart) {
+      this.isLoading = true;
       this.itemForm.part = selectedSparepart;
       selectedSparepart.forEach((part_name) => {
         this.leftSpareParts.forEach((element) => {
@@ -122,7 +126,7 @@ export default {
           }
         });
       });
-      console.log(this.itemForm.selectedPartId);
+      this.isLoading = false;
     },
     addLeftSpareParts() {
       this.spare_parts.forEach((element) => {
@@ -130,11 +134,6 @@ export default {
           this.leftSpareParts.push(element);
         }
       });
-    },
-    test() {
-      console.log("Part", this.itemForm.part);
-      console.log("Part", this.itemForm.selectedPartId);
-      console.log("sparepart", this.spare_parts);
     },
     onFileChanged(event) {
       this.selectedFile = event.target.files[0];
@@ -146,6 +145,7 @@ export default {
       };
     },
     async onSubmit() {
+      this.isLoading = true;
       const formData = new FormData();
       formData.append("files", this.selectedFile);
 
@@ -157,8 +157,23 @@ export default {
         spare_parts: this.itemForm.selectedPartId,
       };
       await ItemApi.dispatch("addItem", payload);
+      // after uploaded item then decrease spare-part remaining
 
-      
+      for (const part_id of this.itemForm.selectedPartId) {
+        let payload = {
+          id: part_id,
+        };
+        let sparepart = await SparePartApi.dispatch("fetchItemById", payload);
+        let remain = sparepart.remain - 1;
+        payload = {
+          id: part_id,
+          remain: remain,
+        };
+        await SparePartApi.dispatch("updateSparepartsRemain", payload);
+      }
+      swal("Success!", "Item has been added to your storage", "success");
+      this.isLoading = false;
+      await this.$router.go(0);
     },
   },
 };

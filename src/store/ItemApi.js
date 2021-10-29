@@ -31,7 +31,6 @@ export default new Vuex.Store({
     async addItem({ commit }, payload) {
       let url = api_endpoint + "/items"
       let upload_url = api_endpoint + '/upload'
-      console.log(payload.picture)
       let res_upload = await Axios.post(upload_url, payload.picture)
       if (res_upload.status === 200) {
         const imageId = res_upload.data[0].id;
@@ -47,7 +46,7 @@ export default new Vuex.Store({
         let res = await Axios.post(url, body)
         if (res.status === 200) {
           commit('add', res.data)
-          swal("Success!", "Item has been added to your storage", "success")
+          // swal("Success!", "Item has been added to your storage", "success")
         } else {
           //items error
           console.error(res)

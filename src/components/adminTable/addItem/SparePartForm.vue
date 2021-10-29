@@ -46,10 +46,6 @@ export default {
     return {};
   },
   methods: {
-    test() {
-      console.log(this.$props.selected_part);
-      console.log(this.$props.spare_parts);
-    },
     onClickConfirm(sparepart) {
       this.$emit("clicked", sparepart);
     },
