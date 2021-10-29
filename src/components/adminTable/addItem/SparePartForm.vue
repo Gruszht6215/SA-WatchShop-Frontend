@@ -13,7 +13,7 @@
             :key="index"
             :native-value="spare.name"
           >
-            {{ spare.name }}
+            <p v-if="spare.remain > 0">{{ spare.name }}</p>
           </b-checkbox>
         </b-field>
 
@@ -24,31 +24,38 @@
       </section>
       <footer class="modal-card-foot">
         <b-button label="Close" @click="$parent.close()" />
-        <b-button label="Login" type="is-primary" />
+        <b-button
+          label="Confirm"
+          type="is-primary"
+          @click="
+            onClickConfirm($props.selected_part);
+            $parent.close();
+          "
+        />
       </footer>
-
-      <b-button label="Test" @click="test" />
     </div>
   </form>
 </template>
 
 <script>
-import SparePartApi from "@/store/SparePartApi";
+import SparePartApi from "@/store/SparepartApi";
 
 export default {
   props: ["spare_parts", "selected_part"],
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     test() {
       console.log(this.$props.selected_part);
       console.log(this.$props.spare_parts);
     },
+    onClickConfirm(sparepart) {
+      this.$emit("clicked", sparepart);
+    },
   },
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 </style>

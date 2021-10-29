@@ -207,7 +207,7 @@ export default {
       }
       let res = await ItemApiStore.dispatch("deleteItem",payload)
       if(res.success){
-          console.log("Delete Success");
+          // console.log("Delete Success");
           this.$swal("Delete Item Success", item.name, "success")
       }else{
           this.$swal("Delete Item Failed", item.name, "error")

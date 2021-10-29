@@ -1,7 +1,7 @@
 <template>
   <div class="modal-card" style="width: auto">
     <header class="modal-card-head">
-      <h1 class="modal-card-title">Add Item</h1>
+      <p class="modal-card-title">Add Item</p>
     </header>
 
     <section class="modal-card-body">
@@ -67,11 +67,11 @@
       aria-modal
     >
       <SparePartForm
-        :spare_parts="spare_parts"
+        :spare_parts="leftSpareParts"
         :selected_part="itemForm.part"
+        @clicked="setSeletedSparepart"
       ></SparePartForm>
     </b-modal>
-
     <b-button label="Test" type="is-primary" @click="test" />
   </div>
 </template>
@@ -94,6 +94,7 @@ export default {
         part: [],
       },
       spare_parts: [],
+      leftSpareParts: [],
     };
   },
   created() {
@@ -102,10 +103,22 @@ export default {
   methods: {
     async fetchSpareParts() {
       await SparePartApi.dispatch("fetchSpareparts");
-      this.spare_parts = SparePartApi.getters.spare_parts;
+      this.spare_parts = SparePartApi.getters.spareparts;
+      this.addLeftSpareParts();
+    },
+    setSeletedSparepart(selectedSparepart) {
+      this.itemForm.part = selectedSparepart;
+    },
+    addLeftSpareParts() {
+      this.spare_parts.forEach((element) => {
+        if (element.remain > 0) {
+          this.leftSpareParts.push(element);
+        }
+      });
     },
     test() {
-      console.log("TESTING", this.spare_parts);
+      console.log("Part", this.itemForm.part);
+      console.log("sparepart", this.spare_parts);
     },
   },
 };
@@ -118,6 +131,7 @@ export default {
   padding-right: 30px;
   padding-top: 25px;
   padding-bottom: 25px;
+  border-radius: 15px;
 }
 .spareparts {
   background-color: #c0c0c0;
