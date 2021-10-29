@@ -99,7 +99,12 @@ export default {
                 price: parseInt(this.form.price),
                 status: this.form.status
             }
-            await ItemApiStore.dispatch("editItem",payload)
+            let res = await ItemApiStore.dispatch("editItem",payload)
+            if(res.success){
+                this.$swal("Edit Item Success", item.name, "success")
+            }else{
+                this.$swal("Edit Item Failed", item.name, "error")
+            }
             this.closeForm()
             this.fetchItems()
         },
