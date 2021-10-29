@@ -173,48 +173,49 @@ export default {
       this.form.price = cloned.price;
       this.form.status = cloned.status;
     },
-    openDelete(item) {
-      this.deleteId = item.id;
+    openDelete(item){
+      this.deleteId = item.id
     },
-    closeForm() {
-      this.editId = -1;
-      this.deleteId = -1;
-      this.form = {
-        name: "",
-        price: 0,
-        status: true,
-      };
-    },
-    async editItem() {
-      let payload = {
-        id: this.editId,
-        name: this.form.name.trim(),
-        price: parseInt(this.form.price),
-        status: this.form.status,
-      };
-      await ItemApiStore.dispatch("editItem", payload);
-      this.closeForm();
-      this.fetchItems();
-    },
-    async deleteItem(item) {
-      let payload = {
-        id: item.id,
-      };
-      let res = await ItemApiStore.dispatch("deleteItem", payload);
-      if (res.success) {
-        console.log("Delete Success");
-        this.$swal("Delete Item Success", item.name, "success");
-      } else {
-        this.$swal("Delete Item Failed", item.name, "error");
+    closeForm(){
+      this.editId = -1
+      this.deleteId= -1
+      this.form= {
+          name: "",
+          price: 0,
+          status: true
       }
-      this.fetchItems();
     },
-
-    addItem() {
-      console.log("object");
+    async editItem(){
+      let payload={
+          id: this.editId,
+          name: this.form.name.trim(),
+          price: parseInt(this.form.price),
+          status: this.form.status
+      }
+      let res = await ItemApiStore.dispatch("editItem",payload)
+      if(res.success){
+          this.$swal("Edit Item Success", item.name, "success")
+      }else{
+          this.$swal("Edit Item Failed", item.name, "error")
+      }
+      this.closeForm()
+      this.fetchItems()
     },
-  },
-};
+    async deleteItem(item){
+      let payload={
+          id: item.id
+      }
+      let res = await ItemApiStore.dispatch("deleteItem",payload)
+      if(res.success){
+          console.log("Delete Success");
+          this.$swal("Delete Item Success", item.name, "success")
+      }else{
+          this.$swal("Delete Item Failed", item.name, "error")
+      }
+      this.fetchItems()
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

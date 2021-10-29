@@ -2,7 +2,7 @@
     <div>
         <footer class="site-footer">
             <div class="footer-inside">
-                <h1 class="text"> Admin Users Board</h1>
+                <h1 class="text"> Admin Items Board</h1>
             </div>
         </footer>
         <div class="bg">
@@ -66,7 +66,7 @@ export default {
 }
 
 .bg{
-    background-image: url(	https://image.flaticon.com/icons/png/512/2721/2721282.png);
+    background-image: url(https://image.flaticon.com/icons/png/512/2721/2721282.png);
     background-repeat: no-repeat;
     background-size: 15%;
     display: block;

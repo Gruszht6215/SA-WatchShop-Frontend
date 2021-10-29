@@ -6,6 +6,7 @@
               <router-link class="navbar-item" to="/">Home</router-link>
               <router-link v-if="isAuthen() && isAdmin()" class="navbar-item" to="/admin/board">Admin-Board</router-link>
               <router-link v-if="isAuthen() && isAdmin()" class="navbar-item" to="/admin/items">Admin-Edit-Items</router-link>
+              <router-link v-if="isAuthen() && isAdmin()" class="navbar-item" to="/admin/spareparts">Admin-Edit-Spareparts</router-link>
           </template>
           <template #end>
               <b-navbar-item tag="div">
