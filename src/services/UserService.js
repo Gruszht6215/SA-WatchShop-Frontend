@@ -1,5 +1,5 @@
 import Axios from "axios"
-const api_endpoint = process.env.VUE_APP_POKEDEX_ENDPOINT
+const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:1337"
 
 
 export default{

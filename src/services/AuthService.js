@@ -4,7 +4,7 @@ const auth_key = "auth-home"
 let auth = JSON.parse(localStorage.getItem(auth_key)) //เก็บข้อมูล user
 const user = auth ? auth.user : ""
 const jwt = auth ? auth.jwt : ""
-const api_endpoint = process.env.VUE_APP_POKEDEX_ENDPOINT || 'http://localhost:1337'
+const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:1337"
 
 
 export default {
