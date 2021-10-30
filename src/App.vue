@@ -8,25 +8,25 @@
             v-if="isAuthen() && isAdmin()"
             class="navbar-item"
             to="/admin/board"
-            >Admin Board</router-link
+            >Customer Board</router-link
           >
           <router-link
             v-if="isAuthen() && isAdmin()"
             class="navbar-item"
             to="/admin/items"
-            >Admin Item Stock</router-link
+            >Item Stock</router-link
           >
           <router-link
             v-if="isAuthen() && isAdmin()"
             class="navbar-item"
             to="/admin/spareparts"
-            >Admin Spareparts Stock</router-link
+            >Spareparts Stock</router-link
           >
           <router-link
             v-if="isAuthen() && isAdmin()"
             class="navbar-item"
             to="/admin/manufacturer"
-            >Admin-Manufacturer</router-link
+            >Manufacturer</router-link
           >
         </template>
         <template #end>

@@ -66,6 +66,7 @@
                 size="is-small"
                 placeholder="0"
                 v-model="form.remain"
+                disabled
               ></b-input>
               <b-button @click="plus()">+</b-button>
             </td>
@@ -137,7 +138,9 @@
 
 <script>
 import ItemApiStore from "@/store/ItemApi";
+import SparepartApi from "@/store/SparepartApi";
 import AddItemForm from "@/components/adminTable/addItem/AddItemForm";
+
 export default {
   components: {
     AddItemForm,
@@ -148,6 +151,7 @@ export default {
       editId: -1,
       deleteId: -1,
       isComponentModalActive: false,
+      countItemAdded: 0,
       form: {
         name: "",
         price: 0,
@@ -161,8 +165,10 @@ export default {
     this.fetchItems();
   },
   methods: {
-    plus(){
-      this.form.remain = parseInt(this.form.remain) +1
+    plus() {
+      this.form.remain = parseInt(this.form.remain) + 1;
+      this.countItemAdded++;
+      // console.log(this.countItemAdded);
     },
     async fetchItems() {
       await ItemApiStore.dispatch("fetchItems");
@@ -173,52 +179,80 @@ export default {
       let cloned = JSON.parse(JSON.stringify(item));
       this.form.name = cloned.name;
       this.form.price = cloned.price;
-      this.form.remain = cloned.remain
+      this.form.remain = cloned.remain;
       this.form.spare_parts = cloned.spare_parts;
       this.form.status = cloned.status;
     },
-    openDelete(item){
-      this.deleteId = item.id
+    openDelete(item) {
+      this.deleteId = item.id;
     },
-    closeForm(){
-      this.editId = -1
-      this.deleteId= -1
-      this.form= {
-          name: "",
-          price: 0,
-          status: true
-      }
+    closeForm() {
+      this.editId = -1;
+      this.deleteId = -1;
+      this.form = {
+        name: "",
+        price: 0,
+        status: true,
+      };
+      this.countItemAdded = 0;
     },
-    async editItem(){
-      let payload={
+    async editItem() {
+      if (await this.isSparepartEnough()) {
+        await this.updateSparepartRemain();
+        let payload = {
           id: this.editId,
           name: this.form.name.trim(),
           price: parseInt(this.form.price),
           remain: parseInt(this.form.remain),
-          status: this.form.status
+          status: this.form.status,
+        };
+        await ItemApiStore.dispatch("editItem", payload);
       }
-      let res = await ItemApiStore.dispatch("editItem",payload)
-      
 
-
-      this.closeForm()
-      this.fetchItems()
+      this.closeForm();
+      this.fetchItems();
     },
-    async deleteItem(item){
-      let payload={
-          id: item.id
+
+    async updateSparepartRemain() {
+      for (const element of this.form.spare_parts) {
+        let partRemain = parseInt(element.remain) - this.countItemAdded;
+        let payload = {
+          id: element.id,
+          remain: partRemain,
+        };
+        await SparepartApi.dispatch("updateSparepartsRemain", payload);
       }
-      let res = await ItemApiStore.dispatch("deleteItem",payload)
-      if(res.success){
-          // console.log("Delete Success");
-          this.$swal("Delete Item Success", item.name, "success")
-      }else{
-          this.$swal("Delete Item Failed", item.name, "error")
+    },
+
+    async isSparepartEnough() {
+      for (const element of this.form.spare_parts) {
+        if (parseInt(element.remain) < parseInt(this.countItemAdded)) {
+          this.$swal(
+            "Not Enough Spare-part",
+            `${element.name} are not enough`,
+            "warning"
+          );
+          return false;
+        }
       }
-      this.fetchItems()
-    }
-  }
-}
+      return true;
+    },
+
+    async deleteItem(item) {
+      let payload = {
+        id: item.id,
+      };
+      let res = await ItemApiStore.dispatch("deleteItem", payload);
+      if (res.success) {
+        // console.log("Delete Success");
+        this.$swal("Delete Item Success", item.name, "success");
+      } else {
+        this.$swal("Delete Item Failed", item.name, "error");
+      }
+      this.fetchItems();
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
