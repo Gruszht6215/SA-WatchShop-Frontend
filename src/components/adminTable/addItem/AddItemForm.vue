@@ -163,7 +163,7 @@ export default {
         let payload = {
           id: part_id,
         };
-        let sparepart = await SparePartApi.dispatch("fetchItemById", payload);
+        let sparepart = await ItemApi.dispatch("fetchItemById", payload);
         let remain = sparepart.remain - 1;
         payload = {
           id: part_id,

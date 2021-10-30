@@ -38,11 +38,11 @@ export default new Vuex.Store({
         let body = {
           name: payload.name,
           price: payload.price,
-          status: payload.status,
           picture: imageId,
           remain: payload.remain,
           spare_parts: payload.spare_parts,
         }
+        console.log("BODY", body)
         let res = await Axios.post(url, body)
         if (res.status === 200) {
           commit('add', res.data)
@@ -109,10 +109,10 @@ export default new Vuex.Store({
     },
 
     async fetchItemById({ commit }, payload) {
-      let res = await Axios.get(api_endpoint + "/items?" + "id_in=" + payload)
+      let res = await Axios.get(api_endpoint + "/items?" + "id_in=" + payload.id)
       commit('fetch', { res })
-      console.log("Fetch Item By ID API");
-      return res.data[0]
+      // console.log("Fetch Item By ID API");
+      return res.data
     }
   },
   modules: {
