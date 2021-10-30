@@ -63,6 +63,7 @@ export default new Vuex.Store({
       let body = {
         name: payload.name,
         price: payload.price,
+        remain: payload.remain,
         status: payload.status
       }
       console.log(body);

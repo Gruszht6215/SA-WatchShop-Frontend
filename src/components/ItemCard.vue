@@ -14,8 +14,10 @@
       <div class="content">
         <div class="text">{{itemInput.price}} Baht</div>
         <br>
+        <div class="text">Remain : {{itemInput.remain}}</div>
+        <br>
         <div>
-            <b-button v-if="isAuthen()" @click="AddItemtoCart()" type="is-success">Add to Cart</b-button>
+            <b-button v-if="isAuthen() && !isAdmin()" @click="AddItemtoCart()" type="is-success">Add to Cart</b-button>
         </div>
       </div>
     </div>
@@ -37,6 +39,9 @@ export default {
   methods:{
     isAuthen(){
       return AuthUser.getters.isAuthen
+    },
+    isAdmin(){
+      return AuthUser.getters.isAdmin
     },
     async AddItemtoCart(){
       let user = await UserService.getUserById(AuthUser.getters.user.id)
@@ -69,7 +74,7 @@ export default {
 .card{
   margin: 20px;
   width: 400px;
-  height: 540px;
+  height: auto;
   position: relative;
   float: left;
   margin-left: 47px;
