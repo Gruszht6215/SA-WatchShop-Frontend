@@ -64,9 +64,10 @@
             <td v-else>
               <b-input
                 size="is-small"
-                placeholder="Remain"
+                placeholder="0"
                 v-model="form.remain"
               ></b-input>
+              <b-button @click="plus()">+</b-button>
             </td>
 
             <td v-if="item.id !== editId">
@@ -75,11 +76,9 @@
               </div>
             </td>
             <td v-else>
-              <b-input
-                size="is-small"
-                placeholder="Spare part"
-                v-model="form.spare_parts"
-              ></b-input>
+              <div v-for="spare_part in item.spare_parts">
+                {{ spare_part.name }},
+              </div>
             </td>
 
             <td v-if="item.id !== editId">
@@ -162,6 +161,9 @@ export default {
     this.fetchItems();
   },
   methods: {
+    plus(){
+      this.form.remain = parseInt(this.form.remain) +1
+    },
     async fetchItems() {
       await ItemApiStore.dispatch("fetchItems");
       this.items = ItemApiStore.getters.items;
@@ -171,6 +173,8 @@ export default {
       let cloned = JSON.parse(JSON.stringify(item));
       this.form.name = cloned.name;
       this.form.price = cloned.price;
+      this.form.remain = cloned.remain
+      this.form.spare_parts = cloned.spare_parts;
       this.form.status = cloned.status;
     },
     openDelete(item){
@@ -190,14 +194,13 @@ export default {
           id: this.editId,
           name: this.form.name.trim(),
           price: parseInt(this.form.price),
+          remain: parseInt(this.form.remain),
           status: this.form.status
       }
       let res = await ItemApiStore.dispatch("editItem",payload)
-      if(res.success){
-          this.$swal("Edit Item Success", item.name, "success")
-      }else{
-          this.$swal("Edit Item Failed", item.name, "error")
-      }
+      
+
+
       this.closeForm()
       this.fetchItems()
     },
