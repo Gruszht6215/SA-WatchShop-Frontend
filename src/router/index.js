@@ -50,6 +50,11 @@ const routes = [
     component: () => import('../views/admin/AdminManufacturer.vue')
   },
   {
+    path: '/admin/invoice',
+    name: 'AdminInvoice',
+    component: () => import('../views/admin/AdminInvoice.vue')
+  },
+  {
     path: '/history/items',
     name: 'HistoryItems',
     component: () => import('../views/History_Items.vue')
