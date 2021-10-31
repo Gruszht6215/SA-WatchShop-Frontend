@@ -28,6 +28,12 @@
             to="/admin/manufacturer"
             >Manufacturer</router-link
           >
+          <router-link
+            v-if="isAuthen() && isAdmin()"
+            class="navbar-item"
+            to="/admin/invoice"
+            >Invoice</router-link
+          >
         </template>
         <template #end>
           <b-navbar-item tag="div">

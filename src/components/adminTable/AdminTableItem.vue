@@ -229,9 +229,11 @@ export default {
         if (parseInt(element.remain) < parseInt(this.countItemAdded)) {
           this.$swal(
             "Not Enough Spare-part",
-            `${element.name} are not enough`,
+            `${element.name} is not enough`,
             "warning"
-          );
+          ).then((value) =>{
+            location.reload()
+          })
           return false;
         }
       }
